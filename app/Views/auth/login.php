@@ -5,12 +5,12 @@
 <title>Login</title>
 </head>
 <body>
-	<?php $session = session(); $error = session()->getFlashdata('error'); ?>
     <form method="post" action="<?= base_url(); ?>/login">
     <?= csrf_field(); ?>
+    <?php $error = session('error'); ?>
         <input type="email" id="email" name="email" placeholder="Email">
-		<?php if(isset($error['email'])){ echo $error['email']; } ?>
-		<?php if(isset($error['invalid'])){ echo $error['invalid']; } ?><br>
+        <?php if(isset($error['email'])) echo $error['email']; ?>
+        <?php if(isset($error['invalid'])) echo $error['invalid']; ?><br>
         <input type="password" id="password" name="password" placeholder="Password">
 		<?php if(isset($error['password'])){ echo $error['password']; } ?><br>
         <button type="submit">Login</button>

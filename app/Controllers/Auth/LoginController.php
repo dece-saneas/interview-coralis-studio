@@ -16,11 +16,9 @@ class LoginController extends BaseController
 		$request = $this->request->getPost();
 		$this->validation->run($request, 'login');
 		$user = $this->user->where('email', $request['email'])->first();
-		$errors = $this->validation->getErrors();
 		
-		if($errors){
-            session()->setFlashdata('error', $errors);
-            return redirect()->back();
+		if($this->validation->getErrors()){
+            return redirect()->back()->with('error', $this->validation->getErrors());
         }
 		
         if($user) {
@@ -34,12 +32,10 @@ class LoginController extends BaseController
 				$this->session->set($authenticated);
                 return redirect()->to(base_url());
             }else {
-				session()->setFlashdata('error', ['invalid' => 'Password anda salah']);
-                return redirect()->back();
+                return redirect()->back()->with('error', ['invalid' => 'Password anda salah']);
             }
         }else {
-            session()->setFlashdata('error', ['invalid' => 'Email tidak terdaftar']);
-            return redirect()->back();
+            return redirect()->back()->with('error', ['invalid' => 'Email tidak terdaftar']);
         }
     }
     public function logout()

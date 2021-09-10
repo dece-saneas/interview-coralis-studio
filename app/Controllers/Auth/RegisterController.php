@@ -15,11 +15,9 @@ class RegisterController extends BaseController
     {
 		$request = $this->request->getPost();
 		$this->validation->run($request, 'register');
-		$errors = $this->validation->getErrors();
 		
-		if($errors){
-            session()->setFlashdata('error', $errors);
-            return redirect()->back();
+		if($this->validation->getErrors()){
+            return redirect()->back()->with('error', $this->validation->getErrors());
         }
 		
 		$photo = $this->request->getFile('photo');
