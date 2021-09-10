@@ -232,6 +232,13 @@
 <section>
 
 	<h1>About this page</h1>
+    
+	<img src="<?= base_url(); ?>/img/photo/<?= session('auth')['user']->photo; ?>" alt="User Photo">
+    <p><?= session('auth')['id']; ?></p>
+	
+    <p><?= session('auth')['user']->name; ?></p>
+	
+    <p><?= session('auth')['user']->email; ?></p>
 
 	<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
 
