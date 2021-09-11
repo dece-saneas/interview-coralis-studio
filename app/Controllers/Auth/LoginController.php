@@ -14,12 +14,13 @@ class LoginController extends BaseController
     public function login()
     {
 		$request = $this->request->getPost();
-		$this->validation->run($request, 'login');
-		$user = $this->user->where('email', $request['email'])->first();
 		
+        $this->validate([ 'email' => 'required|valid_email', 'password' => 'required' ]);
 		if($this->validation->getErrors()){
-            return redirect()->back()->with('error', $this->validation->getErrors());
+            return redirect()->back()->with('alert', $this->validation->getErrors());
         }
+        
+		$user = $this->users->where('email', $request['email'])->first();
 		
         if($user) {
             if(password_verify($request['password'], $user->password)) {
@@ -30,12 +31,13 @@ class LoginController extends BaseController
                     ]
                 ];
 				$this->session->set($authenticated);
+                $this->session->set('success', 'Welcome '.$user->name.'.');
                 return redirect()->to(base_url());
             }else {
-                return redirect()->back()->with('error', ['invalid' => 'Password anda salah']);
+                return redirect()->back()->with('alert', ['invalid' => 'These credentials do not match our records.']);
             }
         }else {
-            return redirect()->back()->with('error', ['invalid' => 'Email tidak terdaftar']);
+            return redirect()->back()->with('alert', ['invalid' => 'These credentials do not match our records.']);
         }
     }
     public function logout()
@@ -45,8 +47,6 @@ class LoginController extends BaseController
     }
     public function __construct()
     { 
-        $this->user = new User();
-		$this->validation = \Config\Services::validation();
-		$this->session = \Config\Services::session();
+        $this->users = new User();
     }
 }

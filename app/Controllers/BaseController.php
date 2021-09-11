@@ -47,6 +47,22 @@ class BaseController extends Controller
 
         // Preload any models, libraries, etc, here.
 
-        // E.g.: $this->session = \Config\Services::session();
+		$this->validation = \Config\Services::validation();
+		$this->session = \Config\Services::session();
+        $this->email = \Config\Services::email();
+        $this->pageNotFound = \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
     }
+    
+    protected function emailConfig()
+	{
+		$config['protocol'] = getenv('mail.driver');
+		$config['SMTPHost'] = getenv('mail.host');
+		$config['SMTPPort'] = getenv('mail.port');
+		$config['SMTPUser'] = getenv('mail.username');
+		$config['SMTPPass'] = getenv('mail.password');
+		$config['SMTPCrypto'] = getenv('mail.encryption');
+		$config['mailType'] = getenv('mail.type');
+		
+		return $config;
+	}
 }

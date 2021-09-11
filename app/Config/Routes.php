@@ -34,11 +34,17 @@ $routes->setAutoRoute(false);
 $routes->get('/', 'HomeController::index');
 
 //Authentication
-$routes->get('/register', 'Auth/RegisterController::showRegisterForm', ['filter' => 'guest']);
-$routes->post('/register', 'Auth/RegisterController::register', ['filter' => 'guest']);
-$routes->get('/login', 'Auth/LoginController::showLoginForm', ['filter' => 'guest']);
-$routes->post('/login', 'Auth/LoginController::login', ['filter' => 'guest']);
 $routes->get('/logout', 'Auth/LoginController::logout');
+$routes->group('/', ['filter' => 'guest'], function ($routes) {
+    $routes->get('register', 'Auth\RegisterController::showRegisterForm');
+    $routes->post('register', 'Auth\RegisterController::register');
+    $routes->get('login', 'Auth\LoginController::showLoginForm');
+    $routes->post('login', 'Auth\LoginController::login');
+    $routes->get('password/reset', 'Auth\ResetPasswordController::showLinkRequestForm');
+    $routes->post('password/reset', 'Auth\ResetPasswordController::sendResetLinkEmail');
+    $routes->get('password/reset/(:any)', 'Auth\ResetPasswordController::showResetForm/$1');
+    $routes->post('password/reset/(:any)', 'Auth\ResetPasswordController::resetPassword/$1');
+});
 
 /*
  * --------------------------------------------------------------------

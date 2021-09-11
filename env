@@ -52,6 +52,20 @@
 # database.tests.DBPrefix =
 
 #--------------------------------------------------------------------
+# MAIL
+#--------------------------------------------------------------------
+
+# mail.driver = 'smtp'
+# mail.host = 'smtp.googlemail.com'
+# mail.port = '465'
+# mail.username = ''
+# mail.password = ''
+# mail.encryption = 'ssl'
+# mail.type = 'html'
+# mail.from.address = 'no-reply@mail.com'
+# mail.from.name = 'Coralis Studio'
+
+#--------------------------------------------------------------------
 # CONTENT SECURITY POLICY
 #--------------------------------------------------------------------
 
